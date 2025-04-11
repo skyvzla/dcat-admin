@@ -580,18 +580,20 @@ class Admin
         if (config('admin.auth.enable', true)) {
             app('router')->group($attributes, function ($router) {
                 /* @var \Illuminate\Routing\Router $router */
-                $router->namespace('Dcat\Admin\Http\Controllers')->group(function ($router) {
-                    /* @var \Illuminate\Routing\Router $router */
-                    $router->resource('auth/users', 'UserController');
-                    $router->resource('auth/menu', 'MenuController', ['except' => ['create', 'show']]);
+                $router->namespace('Dcat\Admin\Http\Controllers')
+                    ->prefix(config('admin.route.system_prefix','auth'))
+                    ->group(function ($router) {
+                        /* @var \Illuminate\Routing\Router $router */
+                        $router->resource('users', 'UserController');
+                        $router->resource('menu', 'MenuController', ['except' => ['create', 'show']]);
 
-                    if (config('admin.permission.enable')) {
-                        $router->resource('auth/roles', 'RoleController');
-                        $router->resource('auth/permissions', 'PermissionController');
-                    }
-                });
+                        if (config('admin.permission.enable')) {
+                            $router->resource('roles', 'RoleController');
+                            $router->resource('permissions', 'PermissionController');
+                        }
 
-                $router->resource('auth/extensions', 'Dcat\Admin\Http\Controllers\ExtensionController', ['only' => ['index', 'store', 'update']]);
+                        $router->resource('extensions', 'Dcat\Admin\Http\Controllers\ExtensionController', ['only' => ['index', 'store', 'update']]);
+                    });
 
                 $authController = config('admin.auth.controller', AuthController::class);
 

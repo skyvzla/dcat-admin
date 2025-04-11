@@ -180,6 +180,9 @@ class Asset
         '@autocomplete' => [
             'js' => '@admin/dcat/plugins/autocomplete/jquery.autocomplete.min.js',
         ],
+        '@bootstrap-popover' => [
+            'js'  => '@admin/dcat/plugins/bootstrap-popover/popover.min.js',
+        ],
     ];
 
     /**

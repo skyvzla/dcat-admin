@@ -95,6 +95,7 @@ class Column
         'editable'         => Displayers\Input::class,
         'input'            => Displayers\Input::class,
         'textarea'         => Displayers\Textarea::class,
+        'popover'          => Displayers\Popover::class,
     ];
 
     /**
