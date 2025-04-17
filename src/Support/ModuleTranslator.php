@@ -17,12 +17,12 @@ class ModuleTranslator extends Translator
             if ($modules = Helper::getControllerModules($controller)) {
                 if (count($modules) > 0) {
                     $this->topModule = strtolower($modules[0]);
-                    $this->modulePath = Helper::getModulePath($modules);
-                } else {
-                    $this->topModule = '';
-                    $this->modulePath = '';
+                    return $this->modulePath = Helper::getModulePath($modules);
                 }
             }
+
+            $this->topModule = '';
+            $this->modulePath = '';
         }
 
         return $this->modulePath;
