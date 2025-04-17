@@ -23,19 +23,19 @@ class LangCreator
      */
     public function create(string $controller, ?string $title)
     {
-        $controller = str_replace('Controller', '', class_basename($controller));
+        $name = str_replace('Controller', '', class_basename($controller));
 
         $filename = $this->getLangPath($controller);
         if (is_file($filename)) {
             return;
         }
 
-        $title = $title ?: $controller;
+        $title = $title ?: $name;
 
         $content = [
             'labels' => [
-                $controller => $title,
-                Helper::slug($controller) => $title,
+                $name => $title,
+                Helper::slug($name) => $title,
             ],
             'fields'  => [],
             'options' => [],
@@ -49,6 +49,7 @@ class LangCreator
         }
 
         $files = app('files');
+        $files->makeDirectory($files->dirname($filename), recursive: true);
         if ($files->put($filename, Helper::exportArrayPhp($content))) {
             $files->chmod($filename, 0777);
 
@@ -64,8 +65,11 @@ class LangCreator
      */
     protected function getLangPath(string $controller)
     {
-        $path = rtrim(app()->langPath(), '/').'/'.App::getLocale();
+        $name = str_replace('Controller', '', class_basename($controller));
+        $modules = Helper::getControllerModules($controller);
 
-        return $path.'/'.Helper::slug($controller).'.php';
+        $path = rtrim(app()->langPath(), '/') . '/' . App::getLocale();
+
+        return $path . '/' .strtolower(implode('/', $modules)).'/'. Helper::slug($name) . '.php';
     }
 }

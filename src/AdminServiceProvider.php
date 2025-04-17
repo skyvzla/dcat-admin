@@ -14,8 +14,8 @@ use Dcat\Admin\Layout\Navbar;
 use Dcat\Admin\Layout\SectionManager;
 use Dcat\Admin\Support\Context;
 use Dcat\Admin\Support\Helper;
+use Dcat\Admin\Support\ModuleTranslator;
 use Dcat\Admin\Support\Setting;
-use Dcat\Admin\Support\Translator;
 use Dcat\Admin\Support\WebUploader;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
@@ -235,7 +235,7 @@ class AdminServiceProvider extends ServiceProvider
         });
         $this->app->singleton('admin.web-uploader', WebUploader::class);
         $this->app->singleton(ExceptionHandler::class, config('admin.exception_handler') ?: Handler::class);
-        $this->app->singleton('admin.translator', Translator::class);
+        $this->app->singleton('admin.translator', ModuleTranslator::class);
     }
 
     public function registerExtensions()

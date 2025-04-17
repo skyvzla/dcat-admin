@@ -999,4 +999,30 @@ class Helper
 
         return redirect($to, in_array($statusCode, $redirectCodes, true) ? $statusCode : 302);
     }
+
+    public static function getControllerModules($controller): ?array
+    {
+        if (stripos($controller, 'Controllers') === false) {
+            return null;
+        }
+
+        $fragments = explode('\\', $controller);
+        $namespaceIndex = array_search('Controllers', $fragments);
+
+        return array_slice($fragments, $namespaceIndex + 1, -1);
+    }
+
+    public static function getModulePath(array $modules): string
+    {
+        if (!count($modules)) return '';
+
+        $modules = array_map(function ($module) {
+            if (strtoupper($module) == $module) {
+                return $module;
+            }
+            return Str::snake($module);
+        }, $modules);
+
+        return implode('/', $modules);
+    }
 }
