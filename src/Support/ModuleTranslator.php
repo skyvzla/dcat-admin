@@ -74,7 +74,6 @@ class ModuleTranslator extends Translator
 
     public function trans($key, array $replace = [], $locale = null)
     {
-        dump($key);
         $method = $this->getTranslateMethod();
 
         if ($this->translator->has($key)) {
